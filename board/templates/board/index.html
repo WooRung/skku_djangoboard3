@@ -31,7 +31,8 @@
       </div>
       <div class="list-group row">
         {% for board in board_list %}
-          <a href="/board/{{ board.id }}" class="list-group-item  col-12 col-sm-6">
+        {% comment %} <a href="/board/{{ board.id }}" class="list-group-item  col-12 col-sm-6"> {% endcomment %}
+          <a href="{% url 'board:detail' board_id=board.id %}" class="list-group-item  col-12 col-sm-6">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">
                 {{ board.title }}
