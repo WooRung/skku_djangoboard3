@@ -1,5 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from django.urls import reverse
 
 from .models import Board, Comment
 
@@ -19,4 +21,18 @@ def board_detail(request, board_id):
         })
 
 def board_create(request):
+    # print(dir(request))
+    if request.method == 'POST':
+        data = request.POST
+        board = Board(
+            title=data['title'],
+            content=data['content']
+        )
+        board.save()
+        return redirect(reverse('board:index'))
+        # return redirect('/board')
+
+
+        
+    
     return render(request, 'board/create.html')
