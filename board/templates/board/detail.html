@@ -10,5 +10,12 @@
         </div>
       </div>
     </div>
+    <div class="my-5">
+      <ul>
+        {% for comment in board.comment_set.all %}
+          <li>{{comment.content}}</li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 {% endblock %}

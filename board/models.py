@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+import importlib
+# importlib.import_module('board.apps.BoardConfig')
 
 
 class Board(models.Model):
@@ -22,5 +24,6 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    board = models.ForeignKey('Board', related_name='comment_set',
+    board = models.ForeignKey('Board',
+                              #   related_name='comment_set',
                               on_delete=models.SET_NULL, null=True)
