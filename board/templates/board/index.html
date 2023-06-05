@@ -1,10 +1,35 @@
 {% extends "./base.html" %}
 {% block main %}
+  <style>
+    .list-group-item+.list-group-item:nth-child(2) {
+      border-top-width: 1px;
+    }
+
+    .list-group-item+.list-group-item:nth-child(2n) {
+      border-left: 0;
+    }
+
+    .list-group {
+      flex-direction: row;
+    }
+
+    .list-group-item:hover {
+      background-color: #e9e9e9;
+    }
+
+    .list-group-item:first-child {
+      border-top-left-radius: initial;
+      border-top-right-radius: initial;
+    }
+  </style>
+
   <div class="container">
-    <div class="mt-5">
-      <div class="list-group">
+    <div class="mt-5 mb-5">
+      <h2 class='mb-5'>게시글 리스트</h2>
+
+      <div class="list-group row">
         {% for board in board_list %}
-          <a href="#" class="list-group-item list-group-item-action">
+          <a href="#" class="list-group-item  col-12 col-sm-6">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">
                 {{ board.title }}
