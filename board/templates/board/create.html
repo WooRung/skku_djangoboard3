@@ -8,14 +8,17 @@
       <div>
         <form action="" method="POST">
           {% csrf_token %}
-          <div class="mb-3">
-            <label for="title" class="form-label">제목</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력해주세요.">
-          </div>
-          <div class="mb-3">
-            <label for="content" class="form-label">내용</label>
-            <textarea class="form-control" id="content" name="content" rows="12"></textarea>
-          </div>
+
+          {% for field in form %}
+            <div class="fieldWrapper m-2">
+              {{ field.label_tag }}
+              {{ field }}
+              {% for error in field.errors %}
+                <div id="content-help" class="form-text text-danger">{{ field.errors }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+
           <div class="mb-3">
             <button type="submit" class="btn btn-primary" style="float:right;">글쓰기</button>
           </div>

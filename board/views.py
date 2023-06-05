@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .models import Board, Comment
+from .forms import BoardForm
 
 def index(request):
     # 모델 - 데이터 조회하기 
@@ -22,17 +23,21 @@ def board_detail(request, board_id):
 
 def board_create(request):
     # print(dir(request))
+    form = BoardForm()
+
     if request.method == 'POST':
-        data = request.POST
-        board = Board(
-            title=data['title'],
-            content=data['content']
-        )
-        board.save()
-        return redirect(reverse('board:index'))
-        # return redirect('/board')
+        form = BoardForm(request.POST)
+        if form.is_valid():
+            # board = Board(
+            #     title=data['title'],
+            #     content=data['content']
+            # )
+            # board.save()
+            form.save(commit=True)
+            return redirect(reverse('board:index'))
+            # return redirect('/board')
 
 
         
     
-    return render(request, 'board/create.html')
+    return render(request, 'board/create.html', {'form': form})
