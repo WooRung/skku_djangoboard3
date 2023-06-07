@@ -16,6 +16,7 @@
         {% csrf_token %}
         <div style="flex-grow:1;">
           {{form.content}}
+          <div id="content-help" class="form-text text-danger">{{ form.content.errors }}</div>
         </div>
         <div>
           <button type="submit" class="btn btn-primary">작성</button>

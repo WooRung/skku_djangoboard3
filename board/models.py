@@ -25,7 +25,9 @@ class Board(models.Model):
 class Comment(models.Model):
     # id = models.AutoField(primary_key=True)
 
-    content = models.CharField(max_length=255)
+    content = models.CharField(max_length=255, validators=[
+        validators.MinLengthValidator(3, "최소 3글자 이상을 입력해주세요.")
+    ])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
