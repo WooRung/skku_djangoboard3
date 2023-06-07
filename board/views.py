@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from django.urls import reverse
+from django.http import HttpResponseBadRequest
 
 from .models import Board, Comment
 from .forms import BoardForm, CommentForm
@@ -51,13 +52,14 @@ def board_create(request):
     
     return render(request, 'board/create.html', {'form': form})
 
-# 수정하기 view function
+# 수정하기 view function (with form)
 def board_edit(request, board_id):
     board = Board.objects.get(id=board_id)
     form = BoardForm(initial={
         'title': board.title,
         'content': board.content
     })
+
     if request.method == 'POST':
         form = BoardForm(request.POST)
         if form.is_valid():
@@ -67,3 +69,33 @@ def board_edit(request, board_id):
             return redirect(reverse('board:detail', kwargs={'board_id': board_id}))
 
     return render(request, 'board/edit.html', {'form': form})
+
+# def board_edit(request, board_id):
+#     print(request.POST)
+#     board = Board.objects.get(id=board_id)
+
+#     # validate
+#     title = request.POST['title']
+#     content = request.POST['content']
+#     if isinstance(title, list):
+#         title = title[0]
+#     if isinstance(content, list):
+#         content = content[0]
+    
+#     error_list = []
+#     error_count = 0
+#     if len(title) < 3 :
+#         error_count+=1
+#         error_list.append(f'제목의 길이는 3이상이여야 합니다')
+#     if len(content) < 10:
+#         error_count+=1
+#         error_list.append(f'내용의 길이는 10이상이여야 합니다.')
+
+#     if error_count == 0:    
+#         board.title = request.POST['title']
+#         board.content = request.POST['content']
+    
+#         board.save()
+    
+    
+#     return render(request, 'board/edit_noform.html', {'error_list': error_list})

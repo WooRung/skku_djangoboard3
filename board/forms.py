@@ -22,11 +22,13 @@ class BoardForm(forms.ModelForm):
     for visible in self.visible_fields():
         visible.field.widget.attrs['class'] = 'form-control'
 
+  
+
 class CommentForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
     self._widget_update()
-    
+
   class Meta:
     model = Comment
     fields = ['content']

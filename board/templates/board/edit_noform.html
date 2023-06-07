@@ -1,0 +1,41 @@
+{% extends "./base.html" %}
+{% block main %}
+  <div class="container">
+    <div class="my-5">
+      <div class="mb-5">
+        <h3>글 수정</h3>
+      </div>
+      <div>
+        <form action="" method="POST">
+          {% csrf_token %}
+
+          <div class="fieldWrapper m-2">
+            <label for="title">제목</label>
+            <input type="text" name="title" class="form-control" id='title'>
+          </div>
+          <div class="fieldWrapper m-2">
+            <label for="content">내용</label>
+            <textarea name="content" class="form-control" id='content' rows="10"></textarea>
+          </div>
+          {% for error in error_list %}
+                <div id="content-help" class="form-text text-danger">{{ error }}</div>
+          {% endfor %}
+
+          {% comment %} {% for field in form %}
+            <div class="fieldWrapper m-2">
+              {{ field.label_tag }}
+              {{ field }}
+              {% for error in field.errors %}
+                <div id="content-help" class="form-text text-danger">{{ field.errors }}</div>
+              {% endfor %}
+            </div>
+          {% endfor %} {% endcomment %}
+
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary" style="float:right;">글수정</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
