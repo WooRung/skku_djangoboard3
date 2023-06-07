@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .models import Board, Comment
-from .forms import BoardForm
+from .forms import BoardForm, CommentForm
 
 def index(request):
     # 모델 - 데이터 조회하기 
@@ -16,10 +16,23 @@ def board_detail(request, board_id):
     board = Board.objects.prefetch_related('comment_set').get(id=board_id)
     # comment_list = Comment.objects.filter(board_id=board_id).all()
     # comment_list = board.comment_set.all()
+    
+    # Comment Form 생성
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            comment = Comment(content=data['content'], board=board)
+            comment.save()
+            return redirect(reverse('board:detail', kwargs={'board_id': board_id}))
+
     return render(request, 'board/detail.html', {
-        'board': board, 
-        # 'comment_list': comment_list,
+            'board': board, 
+            'form': form,
         })
+
 
 def board_create(request):
     # print(dir(request))
