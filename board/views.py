@@ -33,7 +33,6 @@ def board_detail(request, board_id):
             'form': form,
         })
 
-
 def board_create(request):
     # print(dir(request))
     form = BoardForm()
@@ -49,8 +48,10 @@ def board_create(request):
             form.save(commit=True)
             return redirect(reverse('board:index'))
             # return redirect('/board')
-
-
-        
     
     return render(request, 'board/create.html', {'form': form})
+
+# 수정하기 view fuction
+def board_edit(request, board_id):
+    form = BoardForm()
+    return render(request, 'board/edit.html', {'form': form})
