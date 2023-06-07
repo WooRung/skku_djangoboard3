@@ -18,6 +18,8 @@ class Board(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  # 추가될 때 default로 현재시간
     updated_at = models.DateTimeField(auto_now=True)  # 추가or업데이트 될 때 default로 현재시간
 
+    is_deleted = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.id} - {self.title}"
 

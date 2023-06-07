@@ -9,12 +9,12 @@ from .forms import BoardForm, CommentForm
 
 def index(request):
     # 모델 - 데이터 조회하기 
-    board_list = Board.objects.all()
+    board_list = Board.objects.filter(is_deleted=0).all()
     return render(request, 'board/index.html', {'board_list': board_list})
 
 
 def board_detail(request, board_id):
-    board = Board.objects.prefetch_related('comment_set').get(id=board_id)
+    board = Board.objects.filter(is_deleted=0).prefetch_related('comment_set').get(id=board_id)
     # comment_list = Comment.objects.filter(board_id=board_id).all()
     # comment_list = board.comment_set.all()
     
@@ -54,7 +54,7 @@ def board_create(request):
 
 # 수정하기 view function (with form)
 def board_edit(request, board_id):
-    board = Board.objects.get(id=board_id)
+    board = Board.objects.filter(is_deleted=0).get(id=board_id)
     form = BoardForm(initial={
         'title': board.title,
         'content': board.content
@@ -69,6 +69,18 @@ def board_edit(request, board_id):
             return redirect(reverse('board:detail', kwargs={'board_id': board_id}))
 
     return render(request, 'board/edit.html', {'form': form})
+
+def board_delete(request):
+    if request.method == 'POST':
+        board = Board.objects.filter(is_deleted=0).get(id=request.POST['board_id'][0])
+        # 논리삭제
+        board.is_deleted = True
+        board.save()
+        # 물리삭제
+        # board.delete()
+        return redirect(reverse('board:index'))
+    return HttpResponseBadRequest("잘못된 접근입니다.")
+
 
 # def board_edit(request, board_id):
 #     print(request.POST)
