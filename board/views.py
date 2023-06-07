@@ -51,7 +51,19 @@ def board_create(request):
     
     return render(request, 'board/create.html', {'form': form})
 
-# 수정하기 view fuction
+# 수정하기 view function
 def board_edit(request, board_id):
-    form = BoardForm()
+    board = Board.objects.get(id=board_id)
+    form = BoardForm(initial={
+        'title': board.title,
+        'content': board.content
+    })
+    if request.method == 'POST':
+        form = BoardForm(request.POST)
+        if form.is_valid():
+            board.title = form.cleaned_data['title']
+            board.content = form.cleaned_data['content']
+            board.save()
+            return redirect(reverse('board:detail', kwargs={'board_id': board_id}))
+
     return render(request, 'board/edit.html', {'form': form})
