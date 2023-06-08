@@ -6,6 +6,10 @@
 # 3. viewFunction에서는 request를 받아 response를 반환한다.
 """
 from django.http import HttpResponse
+from django.shortcuts import render
+
+def index(request):
+  return render(request, 'user/profile.html')
 
 def user_profile(request):
     return HttpResponse(
