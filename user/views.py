@@ -15,14 +15,21 @@ from django.contrib.auth import models
 from .forms import RegisterForm
 
 from django.contrib.auth import authenticate, login
-
+from django.utils import timezone
 
 def index(request):
-  print(request.user)
-  print(request.user.is_authenticated)
-  print(request.user.is_superuser)
-  print(request.user.is_staff)
-  return render(request, 'user/profile.html')
+  # print(request.session)
+  # for k, v in request.session.items():
+  #   print(k, v)
+  # request.session['visit_profile'] = timezone.now().timestamp()
+  # print(request.user)
+  # print(request.user.is_authenticated)
+  # print(request.user.is_superuser)
+  # print(request.user.is_staff)
+
+  resp = render(request, 'user/profile.html')
+  resp.set_cookie('cookie_test', 'test_value')
+  return resp
 
 def register(request):
   form = RegisterForm()
@@ -32,8 +39,7 @@ def register(request):
       form.save()
       username = form.cleaned_data.get('username')
       password = form.cleaned_data.get('password1')
-      print(username)
-      print(password)
+      
       user = authenticate(username=username, password=password) # DB의 유저정보와 비교 및 조회
       login(request, user) # 실질적인 로그인
       return redirect(reverse('user:index'))
