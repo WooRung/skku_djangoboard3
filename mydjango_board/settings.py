@@ -78,7 +78,7 @@ WSGI_APPLICATION = "mydjango_board.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_myboard',
+        'NAME': 'my-django-db',
         'USER': 'admin',
         'PASSWORD': 'admin1234',
         'HOST': '127.0.0.1',
